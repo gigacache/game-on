@@ -3,79 +3,44 @@ name: CI
 on:
   push:
     branches:
-      - '5.x'
-      - '5.next'
-      - '6.x'
-  pull_request:
-    branches:
-      - '*'
-  workflow_dispatch:
-
-permissions:
-  contents: read
+      - main
 
 jobs:
-  testsuite:
-    runs-on: ubuntu-24.04
+  cakephp-tests:
+    runs-on: ubuntu-latest
+
     strategy:
-      fail-fast: false
       matrix:
-        include:
-          - php-version: '8.2'
-            dependencies: 'lowest'
-          - php-version: '8.5'
-            dependencies: 'highest'
-          - php-version: '8.5'
-            dependencies: 'highest'
+        php: [8.2, 8.3]
 
     steps:
-    - uses: actions/checkout@v6
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-version }}
-        extensions: mbstring, intl, pdo_sqlite
-        ini-values: zend.assertions=1
-        coverage: none
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, intl, pdo_sqlite, xml
+          coverage: none
+          tools: composer
 
-    - name: Composer install
-      uses: ramsey/composer-install@v3
-      with:
-        dependency-versions: ${{ matrix.dependencies }}
-        composer-options: ${{ matrix.composer-options }}
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
 
-    - name: Composer post install
-      run: composer run-script post-install-cmd --no-interaction
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
 
-    - name: Run PHPUnit
-      run: vendor/bin/phpunit
-      env:
-        DATABASE_TEST_URL: sqlite://./testdb.sqlite
+      - name: Run static analysis
+        run: composer static-analysis
 
-  coding-standard:
-    name: Coding Standard & Static Analysis
-    runs-on: ubuntu-24.04
+      - name: Run migrations
+        run: bin/cake migrations migrate -c test
 
-    steps:
-    - uses: actions/checkout@v6
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: mbstring, intl
-        coverage: none
-        tools: cs2pr, phpstan:1.12
-
-    - name: Composer install
-      uses: ramsey/composer-install@v3
-
-    - name: Run PHP CodeSniffer
-      run: vendor/bin/phpcs --report=checkstyle | cs2pr
-
-    - name: Run phpstan
-      if: always()
-      run: phpstan
-      env:
-        SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144
+      - name: Run unit tests
+        env:
+          DATABASE_URL: sqlite:///:memory:
+        run: composer unit-tests

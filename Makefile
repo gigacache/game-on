@@ -29,3 +29,14 @@ migrate:
 clear-cache:
 	docker exec -it tc-apache bin/cake cache clear_all
 
+tests:
+	docker exec -it game-on-apache composer run tests
+
+static-analysis:
+	docker exec -it game-on-apache composer run static-analysis
+
+unit-tests:
+	docker exec -it game-on-apache composer run unit-tests
+
+cs-fix: 
+	docker exec -it game-on-apache composer run cs-fix
