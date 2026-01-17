@@ -24,8 +24,10 @@ class CreateDatabase extends BaseMigration
             ->addColumn('last_name', 'string', ['limit' => 100, 'null' => false])
             ->addColumn('email', 'string', ['limit' => 150, 'null' => false])
             ->addIndex(['email'], ['unique' => true])
-            ->addColumn('token', 'string', ['limit' => 255, 'null' => true, 'default' => null])
-            ->addIndex(['token'], ['unique' => true])
+            ->addColumn('token_hash', 'string', ['limit' => 64, 'null' => false])
+            ->addIndex(['token_hash'], ['unique' => true])
+            ->addColumn('token_created_at', 'datetime', ['null' => false])
+            ->addColumn('is_token_active', 'boolean', ['default' => true])
             ->addColumn('created', 'datetime', [
                 'null' => false,
                 'default' => 'CURRENT_TIMESTAMP',
@@ -42,18 +44,18 @@ class CreateDatabase extends BaseMigration
         $table
             ->addColumn('uuid', 'string', ['limit' => 36, 'null' => false])
             ->addIndex(['uuid'], ['unique' => true])
-            ->addColumn('organiser', 'integer', ['null' => true])
-            ->addIndex(['organiser'])
             ->addColumn('name', 'string', ['limit' => 200, 'null' => false])
             ->addColumn('sport', 'string', ['limit' => 100, 'null' => false])
             ->addColumn('sponsor', 'string', ['limit' => 150, 'null' => false])
             ->addColumn('max_attendees', 'integer', ['null' => false])
             ->addColumn('date_of_event', 'date', ['null' => true, 'default' => null])
+            ->addColumn('location_country_iso', 'string', ['limit' => 3, 'null' => false,])
             ->addColumn('status', 'string', [
                 'limit' => 20,
                 'default' => 'draft',
             ])
-            ->addColumn('country_iso', 'string', ['limit' => 3, 'null' => false,])
+            ->addColumn('organised_by', 'integer', ['null' => true])
+            ->addIndex(['organised_by'])
             ->addColumn('created', 'datetime', [
                 'null' => false,
                 'default' => 'CURRENT_TIMESTAMP',
@@ -63,7 +65,7 @@ class CreateDatabase extends BaseMigration
                 'default' => 'CURRENT_TIMESTAMP',
                 'update' => 'CURRENT_TIMESTAMP'
             ])
-            ->addForeignKey('organiser', 'users', 'id');
+            ->addForeignKey('organised_by', 'users', 'id');
         $table->create();
 
 
@@ -76,12 +78,17 @@ class CreateDatabase extends BaseMigration
             ->addColumn('mobile', 'string', ['limit' => 20, 'null' => false])
             ->addColumn('email', 'string', ['limit' => 150, 'null' => false])
             ->addColumn('registered_by', 'integer', ['null' => true])
-            ->addColumn('registered', 'datetime', [
+            ->addIndex(['registered_by'])
+            ->addColumn('created', 'datetime', [
                 'null' => false,
                 'default' => 'CURRENT_TIMESTAMP',
             ])
-            ->addForeignKey('registered_by', 'users', 'id')
-            ->addIndex(['registered_by']);
+            ->addColumn('updated', 'datetime', [
+                'null' => true,
+                'default' => 'CURRENT_TIMESTAMP',
+                'update' => 'CURRENT_TIMESTAMP'
+            ])
+            ->addForeignKey('registered_by', 'users', 'id');
         $table->create();
 
 
@@ -89,12 +96,21 @@ class CreateDatabase extends BaseMigration
         $table
             ->addColumn('uuid', 'string', ['limit' => 36, 'null' => false])
             ->addIndex(['uuid'], ['unique' => true])
-            ->addColumn('booked_by', 'integer', ['null' => false])
-            ->addIndex(['booked_by'])
             ->addColumn('event_id', 'integer', ['null' => false])
             ->addIndex(['event_id'], ['unique' => true])
             ->addColumn('attendee_id', 'integer', ['null' => false])
             ->addIndex(['attendee_id'], ['unique' => true])
+            ->addColumn('booked_by', 'integer', ['null' => false])
+            ->addIndex(['booked_by'])
+            ->addColumn('created', 'datetime', [
+                'null' => false,
+                'default' => 'CURRENT_TIMESTAMP',
+            ])
+            ->addColumn('updated', 'datetime', [
+                'null' => true,
+                'default' => 'CURRENT_TIMESTAMP',
+                'update' => 'CURRENT_TIMESTAMP'
+            ])
             ->addForeignKey('booked_by', 'users', 'id')
             ->addForeignKey('event_id', 'events', 'id')
             ->addForeignKey('attendee_id', 'attendees', 'id');
