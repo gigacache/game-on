@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        php: [8.2, 8.3]
+        php: [8.4]
 
     steps:
       - name: Checkout repository
@@ -25,13 +25,15 @@ jobs:
           coverage: none
           tools: composer
 
-      - name: Cache Composer
+      - name: Cache Composer dependencies
         uses: actions/cache@v4
         with:
           path: app/vendor
           key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('app/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-
 
-      - name: Install dependencies
+      - name: Install Composer dependencies
         working-directory: app
         run: composer install --prefer-dist --no-progress --no-interaction
 
