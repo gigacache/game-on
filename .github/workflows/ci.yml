@@ -28,19 +28,23 @@ jobs:
       - name: Cache Composer
         uses: actions/cache@v4
         with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          path: app/vendor
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('app/composer.lock') }}
 
       - name: Install dependencies
+        working-directory: app
         run: composer install --prefer-dist --no-progress --no-interaction
 
       - name: Run static analysis
+        working-directory: app
         run: composer static-analysis
 
       - name: Run migrations
+        working-directory: app
         run: bin/cake migrations migrate -c test
 
       - name: Run unit tests
+        working-directory: app
         run: composer unit-tests
         env:
           DATABASE_URL: "sqlite:///:memory:"
