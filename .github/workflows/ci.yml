@@ -65,6 +65,11 @@ jobs:
           DB_PORT: 3306
         run: bin/cake migrations migrate -c test
 
+      - name: Debug MySQL
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot -e "SHOW DATABASES;"
+          mysql -h 127.0.0.1 -uroot -proot -e "USE game_on_test; SHOW TABLES;"
+          
       - name: Run unit tests
         working-directory: app
         env:
