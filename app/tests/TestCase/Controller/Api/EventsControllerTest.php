@@ -129,7 +129,6 @@ class EventsControllerTest extends TestCase
      */
     public function testDeleteEvent(): void
     {
-        $this->disableErrorHandlerMiddleware();
         $createData = [
             'name' => 'Test Event',
             'sport' => 'Running',
@@ -165,11 +164,10 @@ class EventsControllerTest extends TestCase
     }
 
     /**
-     * Test updating an existing event (PUT request) via API endpoints
+     * Test updating an existing event (PUT request)
      */
     public function testUpdateEvent(): void
     {
-        $this->disableErrorHandlerMiddleware();
         $createData = [
             'name' => 'Old Event Name',
             'sport' => 'Running',
