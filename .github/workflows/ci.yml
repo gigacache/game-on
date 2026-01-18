@@ -55,10 +55,17 @@ jobs:
         working-directory: app
         run: composer cs-check
 
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysqladmin ping -h mysql -u root -proot --silent; do
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
       - name: Run migrations
         working-directory: app
         env:
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_USERNAME: root
           DB_PASSWORD: root
           DB_NAME: game_on_test
@@ -68,7 +75,7 @@ jobs:
       - name: Run unit tests
         working-directory: app
         env:
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_USERNAME: root
           DB_PASSWORD: root
           DB_NAME: game_on_test
