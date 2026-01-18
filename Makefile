@@ -27,7 +27,7 @@ migrate:
 # 	docker exec -it game-on-apache bin/cake migrations seed --seed BookingsSeed
 
 clear-cache:
-	docker exec -it tc-apache bin/cake cache clear_all
+	docker exec -it game-on-apache bin/cake cache clear_all
 
 tests:
 	docker exec -it game-on-apache composer run tests
@@ -40,3 +40,6 @@ unit-tests:
 
 cs-fix: 
 	docker exec -it game-on-apache composer run cs-fix
+
+view-routes: 
+	docker exec -it game-on-apache bin/cake routes

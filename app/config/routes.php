@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration.
  *
@@ -29,6 +30,7 @@ use Cake\Routing\RouteBuilder;
  * So you can use `$this` to reference the application class instance
  * if required.
  */
+
 return function (RouteBuilder $routes): void {
     /*
      * The default class to use for all routes
@@ -75,6 +77,16 @@ return function (RouteBuilder $routes): void {
          * It is NOT recommended to use fallback routes after your initial prototyping phase!
          * See https://book.cakephp.org/5/en/development/routing.html#fallbacks-method for more information
          */
+        $builder->fallbacks();
+    });
+
+    // Game on Api end points
+    $routes->prefix('Api', function (RouteBuilder $builder) {
+        $builder->connect(
+            '/users',
+            ['prefix' => 'Api', 'controller' => 'Users', 'action' => 'create']
+        )->setMethods(['POST']);
+
         $builder->fallbacks();
     });
 
