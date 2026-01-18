@@ -125,19 +125,29 @@ class EventsControllerTest extends TestCase
     }
 
     /**
-     * Test deleting an event (DELETE request)
+     * Test deleting events (DELETE request)
      */
     public function testDeleteEvent(): void
     {
-        $event = $this->Events->newEntity([
+        $createData = [
             'name' => 'Test Event',
             'sport' => 'Running',
             'sponsor' => 'Test Sponsor',
             'max_attendees' => 10,
             'date_of_event' => '2026-05-01',
             'location_country_iso' => 'US',
+        ];
+
+        $this->configRequest([
+            'headers' => [
+                'Authorization' => self::HOMERS_FIXTURE_TOKEN,
+                'Content-Type' => 'application/json',
+            ],
         ]);
-        $this->Events->save($event);
+        $this->post('/api/events/create', json_encode($createData));
+        $response = json_decode((string)$this->_response->getBody(), true);
+        $eventId = $response['event']['id'];
+
         $this->configRequest([
             'headers' => [
                 'Authorization' => self::HOMERS_FIXTURE_TOKEN,
@@ -145,7 +155,7 @@ class EventsControllerTest extends TestCase
             ],
         ]);
 
-        $this->delete('/api/events/delete/' . $event->id);
+        $this->delete('/api/events/delete/' . $eventId);
         $this->assertResponseCode(200);
         $this->assertContentType('application/json');
         $response = json_decode((string)$this->_response->getBody(), true);
@@ -154,21 +164,35 @@ class EventsControllerTest extends TestCase
     }
 
     /**
-     * Test updating an existing event (PUT request)
+     * Test updating an existing event (PUT request) via API endpoints
      */
     public function testUpdateEvent(): void
     {
-        $event = $this->Events->newEntity([
+        $createData = [
             'name' => 'Old Event Name',
             'sport' => 'Running',
             'sponsor' => 'Old Sponsor',
             'max_attendees' => 10,
             'date_of_event' => '2026-05-01',
             'location_country_iso' => 'US',
+        ];
+
+        $this->configRequest([
+            'headers' => [
+                'Authorization' => self::HOMERS_FIXTURE_TOKEN,
+                'Content-Type' => 'application/json',
+            ],
         ]);
-        $this->Events->save($event);
+
+        $this->post('/api/events/create', json_encode($createData));
+
+        $this->assertResponseCode(201);
+        $response = json_decode((string)$this->_response->getBody(), true);
+        $this->assertTrue($response['success']);
+        $eventId = $response['event']['id'];
+
         $updateData = [
-            'id' => $event->id,
+            'id' => $eventId,
             'name' => 'Updated Event Name',
             'sport' => 'Cycling',
             'sponsor' => 'New Sponsor',
@@ -179,11 +203,11 @@ class EventsControllerTest extends TestCase
             'headers' => [
                 'Authorization' => self::HOMERS_FIXTURE_TOKEN,
                 'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
             ],
         ]);
 
         $this->put('/api/events/update', json_encode($updateData));
+
         $this->assertResponseCode(200);
         $this->assertContentType('application/json');
         $response = json_decode((string)$this->_response->getBody(), true);

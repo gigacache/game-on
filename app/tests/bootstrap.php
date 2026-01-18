@@ -34,8 +34,6 @@ if (empty($_SERVER['HTTP_HOST']) && !Configure::read('App.fullBaseUrl')) {
     Configure::write('App.fullBaseUrl', 'http://localhost');
 }
 
-Configure::write('debug', true);
-
 // Fixate now to avoid one-second-leap-issues
 Chronos::setTestNow(Chronos::now());
 
