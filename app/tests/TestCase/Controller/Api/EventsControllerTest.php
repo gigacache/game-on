@@ -101,7 +101,7 @@ class EventsControllerTest extends TestCase
         $response = json_decode((string)$this->_response->getBody(), true);
         $this->assertFalse($response['success']);
         $this->assertSame('Unable to save event.', $response['message']);
-        $this->assertArrayHasKey('name', $response['errors']); // Ensure validation error for name exists
+        $this->assertArrayHasKey('name', $response['errors']);
     }
 
     /**
@@ -129,6 +129,7 @@ class EventsControllerTest extends TestCase
      */
     public function testDeleteEvent(): void
     {
+        $this->disableErrorHandlerMiddleware();
         $createData = [
             'name' => 'Test Event',
             'sport' => 'Running',
@@ -168,6 +169,7 @@ class EventsControllerTest extends TestCase
      */
     public function testUpdateEvent(): void
     {
+        $this->disableErrorHandlerMiddleware();
         $createData = [
             'name' => 'Old Event Name',
             'sport' => 'Running',
