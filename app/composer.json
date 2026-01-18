@@ -51,6 +51,6 @@
         ],
         "cs-check": "phpcs --colors -p",
         "cs-fix": "phpcbf --colors -p",
-        "unit-tests": "phpunit --colors=always --verbose"
+        "unit-tests": "phpunit --colors=always --debug"
     }
 }
