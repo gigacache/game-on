@@ -39,7 +39,7 @@ jobs:
 
       - name: Run static analysis
         working-directory: app
-        run: composer static-analysis
+        run: composer cs-check
 
       - name: Run migrations
         working-directory: app
