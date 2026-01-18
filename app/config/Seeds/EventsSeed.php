@@ -33,7 +33,7 @@ class EventsSeed extends BaseSeed
                 'status' => 'scheduled',
                 'organised_by' => 1,
                 'created' => '2026-01-18 16:08:38',
-                'updated' => '2026-01-18 16:17:55',
+                'modified' => '2026-01-18 16:17:55',
             ],
         ];
 

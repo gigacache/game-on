@@ -22,8 +22,8 @@ remove-docker:
 
 migrate:
 	docker exec -it game-on-apache bin/cake migrations migrate
-# 	docker exec -it game-on-apache bin/cake migrations seed --seed UsersSeed
-# 	docker exec -it game-on-apache bin/cake migrations seed --seed EventsSeed
+	docker exec -it game-on-apache bin/cake migrations seed --seed UsersSeed
+	docker exec -it game-on-apache bin/cake migrations seed --seed EventsSeed
 # 	docker exec -it game-on-apache bin/cake migrations seed --seed BookingsSeed
 
 clear-cache:

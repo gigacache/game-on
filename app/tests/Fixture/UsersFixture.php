@@ -28,7 +28,7 @@ class UsersFixture extends TestFixture
                 'token_created_at' => '2026-01-18 13:44:07',
                 'is_token_active' => true,
                 'created' => '2026-01-18 13:44:07',
-                'updated' => '2026-01-18 13:44:07',
+                'modified' => '2026-01-18 13:44:07',
             ],
         ];
         parent::init();

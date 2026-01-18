@@ -31,7 +31,7 @@ class UsersSeed extends BaseSeed
                 'token_created_at' => '2026-01-18 15:09:19',
                 'is_token_active' => 1,
                 'created' => '2026-01-18 15:09:19',
-                'updated' => '2026-01-18 15:09:19',
+                'modified' => '2026-01-18 15:09:19',
             ],
         ];
 

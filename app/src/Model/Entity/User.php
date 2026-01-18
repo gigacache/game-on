@@ -39,7 +39,7 @@ class User extends Entity
         'token_created_at' => true,
         'is_token_active' => true,
         'created' => true,
-        'updated' => true,
+        'modified' => true,
     ];
 
     protected array $_virtual = ['full_name'];

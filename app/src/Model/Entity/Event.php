@@ -48,7 +48,7 @@ class Event extends Entity
         'status' => true,
         'organised_by' => true,
         'created' => true,
-        'updated' => true,
+        'modified' => true,
         'booking' => true,
     ];
 }

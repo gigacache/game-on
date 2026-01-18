@@ -30,7 +30,7 @@ class EventsFixture extends TestFixture
                 'status' => 'scheduled',
                 'organised_by' => 1,
                 'created' => '2026-01-18 15:15:41',
-                'updated' => '2026-01-18 15:15:41',
+                'modified' => '2026-01-18 15:15:41',
             ],
         ];
         parent::init();
