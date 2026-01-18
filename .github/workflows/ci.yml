@@ -13,6 +13,20 @@ jobs:
       matrix:
         php: [8.4]
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: game_on_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,7 +35,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, intl, pdo_sqlite, xml
+          extensions: mbstring, intl, pdo_mysql, xml
           coverage: none
           tools: composer
 
@@ -43,10 +57,20 @@ jobs:
 
       - name: Run migrations
         working-directory: app
+        env:
+          DB_HOST: 127.0.0.1
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          DB_NAME: game_on_test
+          DB_PORT: 3306
         run: bin/cake migrations migrate -c test
 
       - name: Run unit tests
         working-directory: app
-        run: composer unit-tests
         env:
-          DATABASE_URL: "sqlite:///:memory:"
+          DB_HOST: 127.0.0.1
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          DB_NAME: game_on_test
+          DB_PORT: 3306
+        run: composer unit-tests
