@@ -108,6 +108,21 @@ return function (RouteBuilder $routes): void {
             ['prefix' => 'Api', 'controller' => 'Events', 'action' => 'get']
         )->setMethods(['GET']);
 
+        $builder->connect(
+            '/attendees',
+            ['prefix' => 'Api', 'controller' => 'Attendees', 'action' => 'create']
+        )->setMethods(['POST']);
+
+        $builder->connect(
+            '/attendees/register',
+            ['prefix' => 'Api', 'controller' => 'Attendees', 'action' => 'register']
+        )->setMethods(['POST']);
+
+        $builder->connect(
+            '/attendees',
+            ['prefix' => 'Api', 'controller' => 'Attendees', 'action' => 'update']
+        )->setMethods(['PUT']);
+
         $builder->fallbacks();
     });
 
