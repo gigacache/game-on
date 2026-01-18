@@ -73,4 +73,4 @@ jobs:
           DB_PASSWORD: root
           DB_NAME: game_on_test
           DB_PORT: 3306
-        run: composer unit-tests
+        run: bin/cake test --stderr -v
