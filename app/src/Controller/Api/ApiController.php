@@ -4,11 +4,27 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use App\Model\Entity\User;
+use App\Model\Table\UsersTable;
 use Cake\Http\Exception\MethodNotAllowedException;
-use Cake\Http\Exception\UnauthorizedException;
 
 class ApiController extends AppController
 {
+    protected UsersTable $Users;
+
+    protected ?User $authenticatedUser;
+
+    /**
+     * initialize controller
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Users = $this->fetchTable('Users');
+    }
+
     /**
      * Validate the request method and authenticate the user
      *
@@ -29,6 +45,7 @@ class ApiController extends AppController
 
     /**
      * Authenticate the user using Authorization header
+     * (can do this in the cakephp5 middleware)
      *
      * @return bool
      * @throws \Cake\Http\Exception\UnauthorizedException
@@ -37,21 +54,33 @@ class ApiController extends AppController
     {
         $token = $this->request->getHeaderLine('Authorization');
         if (!$token) {
-            throw new UnauthorizedException('Missing Authorization token.');
+            $this->buildResponse([
+                'success' => false,
+                'message' => 'Missing Authorization token',
+                'errors' => 'Unauthorized Exception',
+            ], 401);
+
+            return false;
         }
 
-        $user = $this->Users->find()
+        $this->authenticatedUser = $this->Users->find()
             ->where([
                 'token_hash' => hash('sha256', $token),
                 'is_token_active' => true,
             ])
             ->first();
 
-        if (!$user) {
-            throw new UnauthorizedException('Invalid or inactive token.');
+        if (!$this->authenticatedUser) {
+            $this->buildResponse([
+                'success' => false,
+                'message' => 'Invalid or inactive token',
+                'errors' => 'Unauthorized Exception',
+            ], 401);
+
+            return false;
         }
 
-        return $user;
+        return true;
     }
 
     /**

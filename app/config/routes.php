@@ -87,6 +87,27 @@ return function (RouteBuilder $routes): void {
             ['prefix' => 'Api', 'controller' => 'Users', 'action' => 'create']
         )->setMethods(['POST']);
 
+        $builder->connect(
+            '/events',
+            ['prefix' => 'Api', 'controller' => 'Events', 'action' => 'create']
+        )->setMethods(['POST']);
+
+        $builder->connect(
+            '/events',
+            ['prefix' => 'Api', 'controller' => 'Events', 'action' => 'update']
+        )->setMethods(['PUT']);
+
+        $builder->connect(
+            '/events/delete/{id}',
+            ['prefix' => 'Api', 'controller' => 'Events', 'action' => 'delete'],
+            ['pass' => ['id']]
+        )->setMethods(['DELETE']);
+
+        $builder->connect(
+            '/events',
+            ['prefix' => 'Api', 'controller' => 'Events', 'action' => 'get']
+        )->setMethods(['GET']);
+
         $builder->fallbacks();
     });
 

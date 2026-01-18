@@ -24,7 +24,7 @@ class UsersFixture extends TestFixture
                 'first_name' => 'Homer',
                 'last_name' => 'Simpson',
                 'email' => 'h.simpson@springfield.co.uk',
-                'token_hash' => 'ae1804f14289278d25c33c1002122ff915fe199ae182c67a3f4b3338b5756654',
+                'token_hash' => '51703d1dde30ac118b923a162231758a960f00ce6dbca6c85f432e80e4cf996c',
                 'token_created_at' => '2026-01-18 13:44:07',
                 'is_token_active' => true,
                 'created' => '2026-01-18 13:44:07',
