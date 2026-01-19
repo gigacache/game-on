@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Api;
 
+use App\Model\Entity\Event;
 use App\Model\Table\EventsTable;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -125,7 +126,7 @@ class EventsControllerTest extends TestCase
     }
 
     /**
-     * Test deleting events (DELETE request)
+     * Test cancelling events (DELETE request / soft delete)
      */
     public function testDeleteEvent(): void
     {
@@ -147,20 +148,22 @@ class EventsControllerTest extends TestCase
         $this->post('/api/events/create', json_encode($createData));
         $response = json_decode((string)$this->_response->getBody(), true);
         $eventId = $response['event']['id'];
-
         $this->configRequest([
             'headers' => [
                 'Authorization' => self::HOMERS_FIXTURE_TOKEN,
                 'Accept' => 'application/json',
             ],
         ]);
-
         $this->delete('/api/events/delete/' . $eventId);
         $this->assertResponseCode(200);
         $this->assertContentType('application/json');
+
         $response = json_decode((string)$this->_response->getBody(), true);
         $this->assertTrue($response['success']);
-        $this->assertSame('Event deleted successfully', $response['message']);
+        $this->assertSame('Event has been cancelled.', $response['message']);
+
+        $event = $this->Events->get($eventId);
+        $this->assertSame(Event::STATUS_CANCELLED, $event->status);
     }
 
     /**

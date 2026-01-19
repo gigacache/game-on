@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use App\Model\Entity\Event;
 use Cake\Datasource\Exception\RecordNotFoundException;
 
 class EventsController extends ApiController
@@ -145,7 +146,6 @@ class EventsController extends ApiController
     public function delete(string $id)
     {
         $this->validateRequest('DELETE');
-        // can do this in the cakephp5 middleware but to make it simple
         if (!$this->authenticate()) {
             return;
         }
@@ -162,20 +162,22 @@ class EventsController extends ApiController
             return;
         }
 
-        if (!$this->Events->delete($event)) {
+        $event->set('status', Event::STATUS_CANCELLED);
+
+        if ($this->Events->save($event)) {
             $this->buildResponse([
-                'success' => false,
-                'message' => 'Unable to delete event',
-                'errors' => $event->getErrors(),
-            ], 400);
+                'success' => true,
+                'message' => 'Event has been cancelled.',
+                'errors' => null,
+            ], 200);
 
             return;
         }
 
         $this->buildResponse([
-            'success' => true,
-            'message' => 'Event deleted successfully',
-            'errors' => null,
-        ], 200);
+            'success' => false,
+            'message' => 'Unable to cancel event.',
+            'errors' => $event->getErrors(),
+        ], 400);
     }
 }
