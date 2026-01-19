@@ -24,6 +24,8 @@ Go to [localhost:8080](http://localhost:8080/)
 
 ## Testing
 
+You can use the Postman collection in `postman/Game-on.postman_collection` to test the API.
+
 ```
 make tests
 ```
