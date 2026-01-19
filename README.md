@@ -12,7 +12,7 @@ Before you begin, ensure you have Docker Desktop installed and running/open. All
 ```
 make build-docker 
 ```
-Go to phpMyAdmin @ [localhost:8082](http://localhost:8082/) and create a database called `game_on`.
+Go to phpMyAdmin @ [localhost:8082](http://localhost:8082/) and create a database called `game_on` and `game_on_test`.
 
 ```
 make build-app 
