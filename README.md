@@ -2,6 +2,8 @@
 
 Game On is an Event Booking API built with CakePHP 5, running on PHP 8.4, MySQL 8, and phpMyAdmin, fully containerised using Docker.
 
+**CakePHP 5 Docs**: [https://book.cakephp.org/5/en/index.html](https://book.cakephp.org/5/en/index.html)
+
 ---
 ## Prerequisites
 
@@ -20,3 +22,39 @@ make build-app
 
 Go to [localhost:8080](http://localhost:8080/)
 
+## Testing
+
+```
+make tests
+```
+
+### Unit
+
+```
+make unit-tests
+```
+
+### Static Analysis 
+
+```
+make static-analysis
+```
+
+## Notes
+
+The API uses **basic token authentication** for secured endpoints.
+
+- Token for Homer Simpsons (User)
+```
+c195263efe55ed73c15f0dbd8afa1aa31a88d0f35c14acd790d565210c0a947e
+```
+
+- When you create a **new user** via the API, the token will be returned in the response under:
+
+```json
+{
+  "_client_token": "GENERATED_TOKEN_HERE"
+}
+```
+- The token is already included in the **Postman request headers**, so you don’t need to manually add it.
+  
