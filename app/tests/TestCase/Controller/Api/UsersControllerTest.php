@@ -45,7 +45,7 @@ class UsersControllerTest extends TestCase
             'last_name' => 'Simpson',
             'email' => 'homer.simpson+' . uniqid() . '@springfield.co.uk',
         ];
-        $this->post('/api/users/create', $data, ['Content-Type' => 'application/json']);
+        $this->post('/api/users/', $data, ['Content-Type' => 'application/json']);
         $this->assertResponseCode(201);
         $this->assertContentType('application/json');
         $response = json_decode((string)$this->_response->getBody(), true);
@@ -65,7 +65,7 @@ class UsersControllerTest extends TestCase
             'first_name' => 'Bart',
             'last_name' => 'Simpson',
         ];
-        $this->post('/api/users/create', $data, ['Content-Type' => 'application/json']);
+        $this->post('/api/users/', $data, ['Content-Type' => 'application/json']);
         $this->assertResponseCode(400);
         $this->assertContentType('application/json');
         $response = json_decode((string)$this->_response->getBody(), true);

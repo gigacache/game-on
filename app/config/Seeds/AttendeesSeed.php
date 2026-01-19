@@ -1,23 +1,26 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Fixture;
-
-use Cake\TestSuite\Fixture\TestFixture;
+use Migrations\BaseSeed;
 
 /**
- * AttendeesFixture
+ * Attendees seed.
  */
-class AttendeesFixture extends TestFixture
+class AttendeesSeed extends BaseSeed
 {
     /**
-     * Init method
+     * Run Method.
+     *
+     * Write your database seeder using this method.
+     *
+     * More information on writing seeds is available here:
+     * https://book.cakephp.org/migrations/4/en/seeding.html
      *
      * @return void
      */
-    public function init(): void
+    public function run(): void
     {
-        $this->records = [
+        $data = [
             [
                 'id' => 1,
                 'uuid' => '494198bb-f775-44bd-a156-a5b9b374798e',
@@ -36,11 +39,13 @@ class AttendeesFixture extends TestFixture
                 'last_name' => 'Simpson',
                 'mobile' => '07958430593212',
                 'email' => 'marge.simpson@springfield.com',
-                'registered_by' => null,
+                'registered_by' => NULL,
                 'created' => '2026-01-18 19:47:11',
                 'modified' => '2026-01-18 19:47:11',
             ],
         ];
-        parent::init();
+
+        $table = $this->table('attendees');
+        $table->insert($data)->save();
     }
 }

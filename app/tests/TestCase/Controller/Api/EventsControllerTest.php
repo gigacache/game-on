@@ -60,7 +60,7 @@ class EventsControllerTest extends TestCase
             ],
         ]);
 
-        $this->post('/api/events/create', json_encode($data));
+        $this->post('/api/events/', json_encode($data));
 
         $this->assertResponseCode(201);
         $this->assertContentType('application/json');
@@ -94,7 +94,7 @@ class EventsControllerTest extends TestCase
             ],
         ]);
 
-        $this->post('/api/events/create', json_encode($data));
+        $this->post('/api/events/', json_encode($data));
 
         $this->assertResponseCode(400);
         $this->assertContentType('application/json');
@@ -184,7 +184,7 @@ class EventsControllerTest extends TestCase
             ],
         ]);
 
-        $this->post('/api/events/create', json_encode($createData));
+        $this->post('/api/events/', json_encode($createData));
 
         $this->assertResponseCode(201);
         $response = json_decode((string)$this->_response->getBody(), true);
@@ -206,7 +206,7 @@ class EventsControllerTest extends TestCase
             ],
         ]);
 
-        $this->put('/api/events/update', json_encode($updateData));
+        $this->put('/api/events/', json_encode($updateData));
 
         $this->assertResponseCode(200);
         $this->assertContentType('application/json');

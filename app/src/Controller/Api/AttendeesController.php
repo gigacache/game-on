@@ -36,7 +36,7 @@ class AttendeesController extends ApiController
 
         $this->buildResponse([
             'success' => true,
-            'message' => 'Event was created',
+            'message' => 'Attendee was created',
             'errors' => null,
             'attendee' => $attendee,
         ], 201);
@@ -108,7 +108,7 @@ class AttendeesController extends ApiController
                 'success' => true,
                 'message' => 'No changes made',
                 'errors' => null,
-                'event' => $attendee,
+                'attendee' => $attendee,
             ], 200);
 
             return;
@@ -128,7 +128,7 @@ class AttendeesController extends ApiController
             'success' => true,
             'message' => 'Attendee was updated',
             'errors' => null,
-            'event' => $attendee,
+            'attendee' => $attendee,
         ], 200);
     }
 }
