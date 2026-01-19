@@ -22,6 +22,11 @@ make build-app
 
 Go to [localhost:8080](http://localhost:8080/)
 
+#### To view all endpoints
+```
+make view-routes
+```
+
 ## Testing
 
 You can use the Postman collection in `postman/Game-on.postman_collection` to test the API.
