@@ -123,6 +123,11 @@ return function (RouteBuilder $routes): void {
             ['prefix' => 'Api', 'controller' => 'Attendees', 'action' => 'update']
         )->setMethods(['PUT']);
 
+        $builder->connect(
+            '/bookings',
+            ['prefix' => 'Api', 'controller' => 'Bookings', 'action' => 'create']
+        )->setMethods(['POST']);
+
         $builder->fallbacks();
     });
 

@@ -66,22 +66,20 @@ class CreateDatabase extends BaseMigration
             ->addForeignKey('registered_by', 'users', 'id');
         $table->create();
 
-
         $table = $this->table('bookings');
         $table
             ->addColumn('uuid', 'string', ['limit' => 36, 'null' => false])
             ->addIndex(['uuid'], ['unique' => true])
             ->addColumn('event_id', 'integer', ['null' => false])
-            ->addIndex(['event_id'], ['unique' => true])
             ->addColumn('attendee_id', 'integer', ['null' => false])
-            ->addIndex(['attendee_id'], ['unique' => true])
             ->addColumn('booked_by', 'integer', ['null' => false])
             ->addIndex(['booked_by'])
             ->addColumn('created', 'datetime', ['null' => false])
             ->addColumn('modified', 'datetime', ['null' => false])
             ->addForeignKey('booked_by', 'users', 'id')
             ->addForeignKey('event_id', 'events', 'id')
-            ->addForeignKey('attendee_id', 'attendees', 'id');
+            ->addForeignKey('attendee_id', 'attendees', 'id')
+            ->addIndex(['event_id', 'attendee_id'], ['unique' => true, 'name' => 'unique_booking']);
         $table->create();
     }
 }

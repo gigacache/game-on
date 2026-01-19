@@ -27,7 +27,7 @@ class EventsSeed extends BaseSeed
                 'name' => 'Springfield Marathon',
                 'sport' => 'Running1',
                 'sponsor' => 'Kwik-E-Mart11',
-                'max_attendees' => 5,
+                'max_attendees' => 2,
                 'date_of_event' => '2026-04-01',
                 'location_country_iso' => 'US',
                 'status' => 'scheduled',
