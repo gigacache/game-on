@@ -48,6 +48,12 @@ make unit-tests
 make static-analysis
 ```
 
+### Remove Docker 
+
+```
+make remove-docker
+```
+
 ## Notes
 
 The API uses **basic token authentication** for secured endpoints.
