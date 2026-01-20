@@ -34,7 +34,7 @@ tests:
 	docker exec -it game-on-apache composer run tests
 
 static-analysis:
-	docker exec -it game-on-apache composer run static-analysis
+	docker exec -it game-on-apache composer run cs-check
 
 unit-tests:
 	docker exec -it game-on-apache composer run unit-tests

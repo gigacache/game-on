@@ -10,17 +10,18 @@ Game On is an Event Booking API built with CakePHP 5, running on PHP 8.4, MySQL 
 Before you begin, ensure you have Docker Desktop installed and running/open. All make commands should be ran in game-on's root directory.
 
 ## Installation
-
+Run
 ```
 make build-docker 
 ```
-Go to phpMyAdmin @ [localhost:8082](http://localhost:8082/) and create a database called `game_on` and `game_on_test`.
+Go to phpMyAdmin @ [localhost:8082](http://localhost:8082/) and create two databases called `game_on` and `game_on_test`.
 
+Run
 ```
 make build-app 
 ```
 
-Go to [localhost:8080](http://localhost:8080/)
+Go to [localhost:8080](http://localhost:8080/) - Game on is installed.
 
 #### To view all endpoints
 ```
